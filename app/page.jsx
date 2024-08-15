@@ -20,10 +20,11 @@ export default function Home() {
     if(typeof window !== 'undefined')
     {
       const smallwindowdetection = () => {
-        setSmallscreen(window.innerWidth< 768)
+        setSmallscreen(window.innerWidth< 1526)
       };
 
       window.addEventListener('resize', smallwindowdetection);
+      console.log(window.innerWidth);
 
       smallwindowdetection();
 
@@ -193,7 +194,7 @@ export default function Home() {
 
   return (
     <Box style={backgroundImageStyle}>
-      {smallscreen ? <Typography variant="h1">NEO</Typography> : <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>}
+      {smallscreen ? <Typography variant="h1">NEOs</Typography> : <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>}
 
       {smallscreen ? 
       <Typography
