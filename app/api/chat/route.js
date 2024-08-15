@@ -3,7 +3,7 @@ import Groq from "groq-sdk";
 
 
 
-const systemprompt = "Welcome to the US Election Information Chatbot! I'm here to help you navigate through the latest updates, data, and insights about the US elections. Whether you need information on election results, candidate profiles, voter registration, or upcoming election dates, just ask! I can also assist with finding data by state or city, understanding election laws, and providing resources for voters. How can I assist you today?"
+const systemprompt = "I’m your AI assistant for asteroid detection and monitoring. I’m here to help you with a variety of tasks, including explaining our asteroid detection methods, clarifying alerts and their implications, and guiding you through our database to find specific asteroid information. If you encounter any technical issues with the software, I can assist with troubleshooting. I’m also available to provide educational insights about asteroids and their role in our solar system. Feel free to ask me anything you need—I’m here to make your experience as smooth and informative as possible!"
 
 export async function POST(req) {
     const llama = new Groq({ apiKey: process.env.GROQ_API_KEY });
