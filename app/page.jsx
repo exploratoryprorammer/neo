@@ -24,7 +24,7 @@ export default function Home() {
 
   useEffect(() => {
     if (index !== null) {
-      console.log(index); // This will log the updated index value after it has been set
+      console.log(index); 
     }
   }, [index]);
 
@@ -132,28 +132,24 @@ export default function Home() {
   };
 
   const getNextApproachingDateIndex = (closeApproachData) => {
-    // Get the current date
     const now = new Date();
 
-    // Filter for dates in the future along with their index
     const futureApproaches = closeApproachData
-      .map((data, index) => ({ ...data, index })) // Add index to each item
+      .map((data, index) => ({ ...data, index })) 
       .filter(({ close_approach_date }) => new Date(close_approach_date) > now);
 
-    // Find the index of the nearest date
     if (futureApproaches.length === 0) {
-      return 'No future approaches'; // Return a message or a default value when there are no future dates
+      return 'No future approaches'; 
     }
 
     const nextApproach = futureApproaches.reduce((earliest, current) => {
       return new Date(current.close_approach_date) < new Date(earliest.close_approach_date) ? current : earliest;
     });
 
-    return nextApproach.index; // Return the index of the closest approach
+    return nextApproach.index; 
   };
   const backgroundImageStyle = {
     backgroundImage: 'url(https://i.pinimg.com/originals/1a/7d/cc/1a7dcc374628bc21f6ef890463a77eae.png)',
-    backgroundSize: 'cover',
     backgroundPosition: 'center',
     height: '100vh',
     color: 'white',
@@ -211,8 +207,8 @@ export default function Home() {
           flexWrap: 'wrap',
           gap: '16px',
           justifyContent: 'center',
-          width: '100vw',
-          height: '100vh',
+          width: 'auto',
+          height: 'auto',
           overflowY: 'auto',
           padding: '16px',
           boxSizing: 'border-box',
@@ -222,7 +218,8 @@ export default function Home() {
           <Box
             key={asteroid.id}
             sx={{
-              width: '300px', // Fixed width for each card
+              width: '300px', 
+              height: '175px',
               backgroundColor: 'white',
               color: 'black',
               borderRadius: '8px',
@@ -254,12 +251,12 @@ export default function Home() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#ffffff', // White background for a clean look
-            borderRadius: '12px', // Slightly rounded corners for a modern feel
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+            backgroundColor: '#ffffff', 
+            borderRadius: '12px', 
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
             maxWidth: '800px',
-            width: '90%', // Responsive width
-            padding: '24px', // Add padding for better spacing
+            width: '90%', 
+            padding: '24px', 
             position: 'absolute',
             top: '50%',
             left: '50%',
@@ -401,10 +398,10 @@ export default function Home() {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: '#43464B', // Steel Grey for a distinctive, dark button
-                  color: '#FFFFFF', // White text for clear contrast
+                  backgroundColor: '#43464B', 
+                  color: '#FFFFFF', 
                   '&:hover': {
-                    backgroundColor: '#333333', // Slightly darker grey for hover effect
+                    backgroundColor: '#333333', 
                   },
                 }}
                 onClick={sendMessage}

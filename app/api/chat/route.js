@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
+import OpenAI from "openai";
 
 
 
 const systemprompt = "I’m your AI assistant for asteroid detection and monitoring. I’m here to help you with a variety of tasks, including explaining our asteroid detection methods, clarifying alerts and their implications, and guiding you through our database to find specific asteroid information. If you encounter any technical issues with the software, I can assist with troubleshooting. I’m also available to provide educational insights about asteroids and their role in our solar system. Feel free to ask me anything you need—I’m here to make your experience as smooth and informative as possible!"
 
 export async function POST(req) {
-    const llama = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    const openai = new OpenAI({
+        baseURL: "https://openrouter.ai/api/v1",
+        apiKey: "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",
+      })    
+      // const llama = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const data = await req.json();
 
-    const completion = await llama.chat.completions.create({
+    const completion = await openai.chat.completions.create({
         messages: [
             {
                 role: 'system',
@@ -17,7 +21,7 @@ export async function POST(req) {
             },
             ...data
         ],
-        model: 'llama3-70b-8192',
+        model: "meta-llama/llama-3.1-8b-instruct:free",
         stream: true,
     })
 
