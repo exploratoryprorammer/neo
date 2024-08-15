@@ -14,6 +14,25 @@ export default function Home() {
   const [selast, setSelast] = useState(null);
   const [index, setIndex] = useState(null);
   const [modalopen, setModalopen] = useState(false);
+  const [smallscreen, setSmallscreen] = useState(false);
+
+  useEffect(() => {
+    if(typeof window !== 'undefined')
+    {
+      const smallwindowdetection = () => {
+        setSmallscreen(window.innerWidth< 768)
+      };
+
+      window.addEventListener('resize', smallwindowdetection);
+
+      smallwindowdetection();
+
+      return () => {
+        window.removeEventListener('resize',smallwindowdetection);
+      }
+      
+    }
+  }, []);
 
   const handlemodalopen = (asteroid) => {
     setSelast(asteroid);
@@ -174,8 +193,9 @@ export default function Home() {
 
   return (
     <Box style={backgroundImageStyle}>
-      <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>
+      {smallscreen ? <Typography variant="h1">NEO</Typography> : <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>}
 
+      {smallscreen ? 
       <Typography
         variant="h1"
         color="white"
@@ -185,7 +205,6 @@ export default function Home() {
         justifyContent="center"
         gap={2}
       >
-        <Typography variant="h2">POWERED BY</Typography>
         <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
         <Image
           src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
@@ -199,7 +218,32 @@ export default function Home() {
           }}
         />
 
-      </Typography>
+      </Typography> 
+      : 
+      <Typography
+      variant="h1"
+      color="white"
+      textAlign="center"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      gap={2}
+    >
+      <Typography variant="h2">POWERED BY</Typography>
+      <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
+      <Image
+        src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
+        width="50"
+        height= '100'
+        alt="NASA Logo"
+        style={{
+          marginTop: '0',
+          height: '100px',
+          width: 'auto',
+        }}
+      />
+
+    </Typography> } 
       <Box
         sx={{
           display: 'flex',
