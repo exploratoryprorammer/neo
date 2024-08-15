@@ -2,17 +2,16 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Box, Stack, TextField, Button, Modal, Typography, InputBase, Card } from "@mui/material";
-import { fa42Group, faMeta } from "@fortawesome/free-brands-svg-icons";
+import { faMeta } from "@fortawesome/free-brands-svg-icons";
+import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { faRuler, faFileAlt, faBolt, faMeteor, faCalendarAlt, faAngleUp, faStar, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
-
   const [open, setOpen] = useState(false);
   const [data, setData] = useState(null);
   const [pages, setPages] = useState(0);
   const [selast, setSelast] = useState(null);
-
   const [index, setIndex] = useState(null);
   const [modalopen, setModalopen] = useState(false);
 
@@ -49,9 +48,7 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+
 
 
   const sendMessage = async () => {
@@ -100,7 +97,7 @@ export default function Home() {
   useEffect(() => {
     const fetchNASAdata = async () => {
       try {
-        const response = await fetch('https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=53NkhqrDI4PURDLYfDVzIAw7rvXSuUFE5o2a4Tyq');
+        const response = await fetch(`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=53NkhqrDI4PURDLYfDVzIAw7rvXSuUFE5o2a4Tyq`);
         const result = await response.json();
         setData(result);
         setPages(result.page.total_pages)
@@ -154,6 +151,22 @@ export default function Home() {
 
     return nextApproach.index; // Return the index of the closest approach
   };
+  const backgroundImageStyle = {
+    backgroundImage: 'url(https://i.pinimg.com/originals/1a/7d/cc/1a7dcc374628bc21f6ef890463a77eae.png)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100vh',
+    color: 'white',
+    margin: 0,
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  };
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
 
 
@@ -164,17 +177,19 @@ export default function Home() {
 
 
   return (
-    <Box backgroundColor="black">
+    <Box style={backgroundImageStyle}>
+      <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>
+
       <Typography
         variant="h1"
         color="white"
-        fontFamily='Roboto'
         textAlign="center"
         display="flex"
         alignItems="center"
         justifyContent="center"
         gap={2}
       >
+        <Typography variant="h2">POWERED BY</Typography>
         <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
@@ -186,7 +201,6 @@ export default function Home() {
           }}
         />
 
-        <Typography variant="h1">NEO - NEAR EARTH OBJECTS</Typography>
       </Typography>
       <Box
         sx={{
@@ -236,32 +250,47 @@ export default function Home() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'black',
-            borderRadius: '8px',
+            justifyContent: 'center',
+            backgroundColor: '#ffffff', // White background for a clean look
+            borderRadius: '12px', // Slightly rounded corners for a modern feel
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             maxWidth: '800px',
-            width: '700px',
-            height: '700px',
+            width: '90%', // Responsive width
+            padding: '24px', // Add padding for better spacing
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
           }}
         >
-          <Typography variant="h3" color="white">{selast?.name}</Typography>
-          <Typography variant="h5" color="white">First Observation Date : {selast?.orbital_data.first_observation_date}</Typography>
-          <Typography variant="h5" color="white">Last Observation Date : {selast?.orbital_data.last_observation_date}</Typography>
-          <Typography variant="h5" color="white">Inclination : {selast?.orbital_data.inclination}</Typography>
-          <Typography variant="h5" color="white">Equinox : {selast?.orbital_data.equinox}</Typography>
-          <Typography variant="h5" color="white">Upcoming Approach Date: {selast?.close_approach_data[index].close_approach_date_full}</Typography>
-          <Typography variant="h5" color="white">Upcoming Approach Speed: {selast?.close_approach_data[index].relative_velocity.miles_per_hour}</Typography>
-          <Typography variant="h5" color="white">Upcoming Approach Miss Distance: {selast?.close_approach_data[index].miss_distance.miles}</Typography>
-          <Typography variant="h6" color="white">"{selast?.orbital_data.orbit_class.orbit_class_description}"</Typography>
-
-
-
-
+          <Typography variant="h4" color="textPrimary" gutterBottom>
+            {selast?.name} <FontAwesomeIcon icon={faMeteor} color="#000" />
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faCalendarAlt} color="#000" /> First Observation Date: {selast?.orbital_data.first_observation_date}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faCalendarAlt} color="#000" /> Last Observation Date: {selast?.orbital_data.last_observation_date}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faAngleUp} color="#000" /> Inclination: {selast?.orbital_data.inclination}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faStar} color="#000" /> Equinox: {selast?.orbital_data.equinox}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faCalendarDay} color="#000" /> Upcoming Approach Date: {selast?.close_approach_data[index].close_approach_date_full}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faBolt} color="#000" /> Upcoming Approach Speed: {Math.round(selast?.close_approach_data[index].relative_velocity.miles_per_hour)} mph
+          </Typography>
+          <Typography variant="h6" color="textSecondary" gutterBottom>
+            <FontAwesomeIcon icon={faRuler} color="#000" /> Upcoming Approach Miss Distance: {Math.round(selast?.close_approach_data[index].miss_distance.miles)} miles
+          </Typography>
+          <Typography variant="body1" color="textSecondary" align="center">
+            <FontAwesomeIcon icon={faFileAlt} color="#000" /> "{selast?.orbital_data.orbit_class.orbit_class_description}"
+          </Typography>
         </Box>
       </Modal>
 
@@ -270,29 +299,53 @@ export default function Home() {
 
       <Button
         variant="contained"
-        style={{
-          backgroundColor: "white",
-          color: "black",
-          position: "fixed", // Use 'fixed' instead of 'absolute'
-          bottom: 16, // Adjust as needed
-          right: 16, // Adjust as needed
-          zIndex: 1000, // Ensure it's above other elements
+        onClick={handleopen}
+        sx={{
+          backgroundColor: 'black', // Primary color (e.g., blue)
+          color: "white", // Text and icon color
+          display: 'flex',
+          alignItems: 'center', // Centers items vertically
+          gap: 1.5, // Adds space between the icon and text
+          padding: '8px 16px', // Adjusts padding for a more balanced look
+          position: 'fixed',
+          bottom: 16,
+          right: 16,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Light shadow for depth
+          borderRadius: '24px', // Rounds corners for a modern look
+          '&:hover': {
+            backgroundColor: '#adb5bd', // Darker shade for hover effect
+            boxShadow: '0 6px 8px rgba(0, 0, 0, 0.2)', // Darker shadow on hover
+          },
         }}
-        onClick={() => { handleopen(); }}
+        aria-label="Open Chatbot"
       >
-       <FontAwesomeIcon icon={faMeta}/> 
-      </Button>      
+        <FontAwesomeIcon icon={faRobot} size="lg" /> {/* Updated icon and size */}
+        <Typography variant="body1" component="span">
+          A.I. Assistant
+        </Typography>
+      </Button>
       <Modal
         open={open}
         onClose={handleclose}
       >
         <Box
-
+          backgroundColor="white"
           display="flex"
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          margin="50px"
+          width="500px"
+          height="700px"
+          borderRadius="16px"
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+
+
+
         >
           <Stack
             direction="column"
@@ -301,6 +354,8 @@ export default function Home() {
             border="1px solid black"
             p={2}
             spacing={3}
+            borderRadius='16px'
+
           >
             <Stack
               direction="column"
@@ -320,8 +375,8 @@ export default function Home() {
                   <Box
                     bgcolor={
                       message.role === 'assistant'
-                        ? 'primary.main'
-                        : 'secondary.main'
+                        ? 'black'
+                        : '#696969'
                     }
                     color="white"
                     borderRadius={16}
@@ -341,9 +396,18 @@ export default function Home() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              <Button variant="contained" onClick={sendMessage}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#43464B', // Steel Grey for a distinctive, dark button
+                  color: '#FFFFFF', // White text for clear contrast
+                  '&:hover': {
+                    backgroundColor: '#333333', // Slightly darker grey for hover effect
+                  },
+                }}
+                onClick={sendMessage}
+              >
                 Send
-
               </Button>
             </Stack>
 
