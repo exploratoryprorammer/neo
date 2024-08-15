@@ -191,8 +191,10 @@ export default function Home() {
       >
         <Typography variant="h2">POWERED BY</Typography>
         <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
-        <img
+        <Image
           src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
+          width="50"
+          height= '100'
           alt="NASA Logo"
           style={{
             marginTop: '0',
