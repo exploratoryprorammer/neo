@@ -8,7 +8,7 @@ const systemprompt = "I’m your AI assistant for asteroid detection and monitor
 export async function POST(req) {
     const openai = new OpenAI({
         baseURL: "https://openrouter.ai/api/v1",
-        apiKey: "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",
+        apiKey: process.env.OPENROUTER_API_KEY
       })    
       // const llama = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const data = await req.json();
