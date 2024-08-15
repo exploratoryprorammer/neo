@@ -17,10 +17,9 @@ export default function Home() {
   const [smallscreen, setSmallscreen] = useState(false);
 
   useEffect(() => {
-    if(typeof window !== 'undefined')
-    {
+    if (typeof window !== 'undefined') {
       const smallwindowdetection = () => {
-        setSmallscreen(window.innerWidth< 1526)
+        setSmallscreen(window.innerWidth < 1526)
       };
 
       window.addEventListener('resize', smallwindowdetection);
@@ -29,9 +28,9 @@ export default function Home() {
       smallwindowdetection();
 
       return () => {
-        window.removeEventListener('resize',smallwindowdetection);
+        window.removeEventListener('resize', smallwindowdetection);
       }
-      
+
     }
   }, []);
 
@@ -44,7 +43,7 @@ export default function Home() {
 
   useEffect(() => {
     if (index !== null) {
-      console.log(index); 
+      console.log(index);
     }
   }, [index]);
 
@@ -155,18 +154,18 @@ export default function Home() {
     const now = new Date();
 
     const futureApproaches = closeApproachData
-      .map((data, index) => ({ ...data, index })) 
+      .map((data, index) => ({ ...data, index }))
       .filter(({ close_approach_date }) => new Date(close_approach_date) > now);
 
     if (futureApproaches.length === 0) {
-      return 'No future approaches'; 
+      return 'No future approaches';
     }
 
     const nextApproach = futureApproaches.reduce((earliest, current) => {
       return new Date(current.close_approach_date) < new Date(earliest.close_approach_date) ? current : earliest;
     });
 
-    return nextApproach.index; 
+    return nextApproach.index;
   };
   const backgroundImageStyle = {
     backgroundImage: 'url(https://i.pinimg.com/originals/1a/7d/cc/1a7dcc374628bc21f6ef890463a77eae.png)',
@@ -196,55 +195,55 @@ export default function Home() {
     <Box style={backgroundImageStyle}>
       {smallscreen ? <Typography variant="h1">NEOs</Typography> : <Typography variant="h1">REAL TIME NEAR EARTH OBJECTS</Typography>}
 
-      {smallscreen ? 
-      <Typography
-        variant="h1"
-        color="white"
-        textAlign="center"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        gap={2}
-      >
-        <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
-        <Image
-          src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
-          width="50"
-          height= '100'
-          alt="NASA Logo"
-          style={{
-            marginTop: '0',
-            height: '100px',
-            width: 'auto',
-          }}
-        />
+      {smallscreen ?
+        <Typography
+          variant="h1"
+          color="white"
+          textAlign="center"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
+            width="50"
+            height='100'
+            alt="NASA Logo"
+            style={{
+              marginTop: '0',
+              height: '100px',
+              width: 'auto',
+            }}
+          />
 
-      </Typography> 
-      : 
-      <Typography
-      variant="h1"
-      color="white"
-      textAlign="center"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      gap={2}
-    >
-      <Typography variant="h2">POWERED BY</Typography>
-      <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
-      <Image
-        src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
-        width="50"
-        height= '100'
-        alt="NASA Logo"
-        style={{
-          marginTop: '0',
-          height: '100px',
-          width: 'auto',
-        }}
-      />
+        </Typography>
+        :
+        <Typography
+          variant="h1"
+          color="white"
+          textAlign="center"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <Typography variant="h2">POWERED BY</Typography>
+          <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
+            width="50"
+            height='100'
+            alt="NASA Logo"
+            style={{
+              marginTop: '0',
+              height: '100px',
+              width: 'auto',
+            }}
+          />
 
-    </Typography> } 
+        </Typography>}
       <Box
         sx={{
           display: 'flex',
@@ -263,7 +262,7 @@ export default function Home() {
           <Box
             key={asteroid.id}
             sx={{
-              width: '300px', 
+              width: '300px',
               height: '175px',
               backgroundColor: 'white',
               color: 'black',
@@ -296,43 +295,45 @@ export default function Home() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#ffffff', 
-            borderRadius: '12px', 
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
-            maxWidth: '800px',
-            width: '90%', 
-            padding: '24px', 
+            backgroundColor: '#ffffff',
+            borderRadius: '12px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            maxWidth: '90%',
+            width: '60%',
+            padding: { xs: '16px', sm: '20px', md: '24px' },
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            overflowY: 'auto',
+            maxHeight: '90vh',
           }}
         >
-          <Typography variant="h4" color="textPrimary" gutterBottom>
+          <Typography variant="h5" color="textPrimary" gutterBottom>
             {selast?.name} <FontAwesomeIcon icon={faMeteor} color="#000" />
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faCalendarAlt} color="#000" /> First Observation Date: {selast?.orbital_data.first_observation_date}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faCalendarAlt} color="#000" /> Last Observation Date: {selast?.orbital_data.last_observation_date}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faAngleUp} color="#000" /> Inclination: {selast?.orbital_data.inclination}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faStar} color="#000" /> Equinox: {selast?.orbital_data.equinox}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faCalendarDay} color="#000" /> Upcoming Approach Date: {selast?.close_approach_data[index].close_approach_date_full}
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faBolt} color="#000" /> Upcoming Approach Speed: {Math.round(selast?.close_approach_data[index].relative_velocity.miles_per_hour)} mph
           </Typography>
-          <Typography variant="h6" color="textSecondary" gutterBottom>
+          <Typography variant="body1" color="textSecondary" gutterBottom>
             <FontAwesomeIcon icon={faRuler} color="#000" /> Upcoming Approach Miss Distance: {Math.round(selast?.close_approach_data[index].miss_distance.miles)} miles
           </Typography>
-          <Typography variant="body1" color="textSecondary" align="center">
+          <Typography variant="body2" color="textSecondary" align="center">
             <FontAwesomeIcon icon={faFileAlt} color="#000" /> "{selast?.orbital_data.orbit_class.orbit_class_description}"
           </Typography>
         </Box>
@@ -345,25 +346,25 @@ export default function Home() {
         variant="contained"
         onClick={handleopen}
         sx={{
-          backgroundColor: 'black', // Primary color (e.g., blue)
-          color: "white", // Text and icon color
+          backgroundColor: 'black', 
+          color: "white", 
           display: 'flex',
-          alignItems: 'center', // Centers items vertically
-          gap: 1.5, // Adds space between the icon and text
-          padding: '8px 16px', // Adjusts padding for a more balanced look
+          alignItems: 'center', 
+          gap: 1.5, 
+          padding: '8px 16px', 
           position: 'fixed',
           bottom: 16,
           right: 16,
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Light shadow for depth
-          borderRadius: '24px', // Rounds corners for a modern look
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', 
+          borderRadius: '24px', 
           '&:hover': {
-            backgroundColor: '#adb5bd', // Darker shade for hover effect
-            boxShadow: '0 6px 8px rgba(0, 0, 0, 0.2)', // Darker shadow on hover
+            backgroundColor: '#adb5bd', 
+            boxShadow: '0 6px 8px rgba(0, 0, 0, 0.2)', 
           },
         }}
         aria-label="Open Chatbot"
       >
-        <FontAwesomeIcon icon={faRobot} size="lg" /> {/* Updated icon and size */}
+        <FontAwesomeIcon icon={faRobot} size="lg" /> 
         <Typography variant="body1" component="span">
           A.I. Assistant
         </Typography>
@@ -443,10 +444,10 @@ export default function Home() {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: '#43464B', 
-                  color: '#FFFFFF', 
+                  backgroundColor: '#43464B',
+                  color: '#FFFFFF',
                   '&:hover': {
-                    backgroundColor: '#333333', 
+                    backgroundColor: '#333333',
                   },
                 }}
                 onClick={sendMessage}
