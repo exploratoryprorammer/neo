@@ -6,6 +6,7 @@ import { faMeta } from "@fortawesome/free-brands-svg-icons";
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRuler, faFileAlt, faBolt, faMeteor, faCalendarAlt, faAngleUp, faStar, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   const [open, setOpen] = useState(false);
