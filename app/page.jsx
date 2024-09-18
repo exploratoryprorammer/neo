@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Box, Stack, TextField, Button, Modal, Typography, InputBase, Card } from "@mui/material";
 import { faMeta } from "@fortawesome/free-brands-svg-icons";
-import { faRobot } from '@fortawesome/free-solid-svg-icons';
+import { faM, faRobot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRuler, faFileAlt, faBolt, faMeteor, faCalendarAlt, faAngleUp, faStar, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 
@@ -67,48 +67,41 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-
-
-
   const sendMessage = async () => {
-    setMessage('');
+    setMessage('')
     setMessages((messages) => [
       ...messages,
-      { role: 'user', content: message },
-      { role: 'assistant', content: '' },
+      {role: 'user', content: message},
+      {role: 'assistant', content: ''},
     ])
-    const response = fetch('api/chat', {
+  
+    const response = fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify([...messages, { role: 'user', content: message }]),
+      body: JSON.stringify([...messages, {role: 'user', content: message}]),
     }).then(async (res) => {
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
-
       let result = ''
-      return reader.read().then(function processText({ done, value }) {
+  
+      return reader.read().then(function processText({done, value}) {
         if (done) {
           return result
         }
-        const text = decoder.decode(value || new Uint8Array(), { stream: true })
+        const text = decoder.decode(value || new Uint8Array(), {stream: true})
         setMessages((messages) => {
-          let lastMessages = messages[messages.length - 1]
+          let lastMessage = messages[messages.length - 1]
           let otherMessages = messages.slice(0, messages.length - 1)
-          return ([
+          return [
             ...otherMessages,
-            {
-              ...lastMessages,
-              content: lastMessages.content + text
-            },
-          ])
+            {...lastMessage, content: lastMessage.content + text},
+          ]
         })
         return reader.read().then(processText)
-
       })
     })
-
   }
   const handleopen = () => setOpen(true);
   const handleclose = () => setOpen(false);
@@ -205,7 +198,17 @@ export default function Home() {
           justifyContent="center"
           gap={2}
         >
-          <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
+          <Image
+            src="/openai-white-logomark.png"
+            width="50"
+            height='100'
+            alt="NASA Logo"
+            style={{
+              marginTop: '0',
+              height: '90px',
+              width: 'auto',
+            }}
+          />
           <Image
             src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
             width="50"
@@ -230,7 +233,17 @@ export default function Home() {
           gap={2}
         >
           <Typography variant="h2">POWERED BY</Typography>
-          <FontAwesomeIcon color="#1877F2" icon={faMeta} size="1.5x" />
+          <Image
+            src="/openai-white-logomark.png"
+            width="50"
+            height='100'
+            alt="NASA Logo"
+            style={{
+              marginTop: '0',
+              height: '90px',
+              width: 'auto',
+            }}
+          />
           <Image
             src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg"
             width="50"
@@ -364,6 +377,7 @@ export default function Home() {
         }}
         aria-label="Open Chatbot"
       >
+        
         <FontAwesomeIcon icon={faRobot} size="lg" /> 
         <Typography variant="body1" component="span">
           A.I. Assistant
@@ -372,91 +386,103 @@ export default function Home() {
       <Modal
         open={open}
         onClose={handleclose}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
+        
         <Box
           backgroundColor="white"
           display="flex"
           flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          width="500px"
-          height="700px"
+          width={{ xs: '90%', sm: '80%', md: '60%', lg: '50%' }} // Responsive width
+          maxWidth="800px" // Maximum width
+          height="80vh" // Responsive height
+          maxHeight="80vh" // Maximum height
           borderRadius="16px"
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: 'relative',
+            boxShadow: 24,
+            p: 2,
+            overflow: 'hidden',
           }}
-
-
-
         >
+          <Button
+  variant="contained"
+  sx={{
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#43464B', // Same color as Send button
+    color: '#FFFFFF', // White text color
+    '&:hover': {
+      backgroundColor: '#333333', // Darker shade for hover
+    },
+    borderRadius: '10%',
+    minWidth: 'auto',
+    padding: '0 8px',
+    height: 30,
+    textAlign: 'center',
+  }}
+  onClick={handleclose}>
+  Close
+</Button>
           <Stack
             direction="column"
-            width="500px"
-            height="700px"
-            border="1px solid black"
-            p={2}
-            spacing={3}
-            borderRadius='16px'
-
+            spacing={2}
+            height="calc(100% - 60px)"  // Adjusted to fit input field better
+            overflow="auto"
           >
-            <Stack
-              direction="column"
-              spacing={2}
-              flexGrow={1}
-              overflow="auto"
-              maxHeight="100%"
-            >
-              {messages.map((message, index) => (
-                <Box
-                  key={index}
-                  display="flex"
-                  justifyContent={
-                    message.role === 'assistant' ? 'flex-start' : 'flex-end'
-                  }
-                >
-                  <Box
-                    bgcolor={
-                      message.role === 'assistant'
-                        ? 'black'
-                        : '#696969'
-                    }
-                    color="white"
-                    borderRadius={16}
-                    p={3}
-                  >
-                    {message.content}
-
-                  </Box>
-                </Box>
-              ))}
-              <div ref={messagesEndRef} />
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField
-                label="Message"
-                fullWidth
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: '#43464B',
-                  color: '#FFFFFF',
-                  '&:hover': {
-                    backgroundColor: '#333333',
-                  },
-                }}
-                onClick={sendMessage}
+            {messages.map((message, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent={
+                  message.role === 'user' ? 'flex-end' : 'flex-start'
+                }
               >
-                Send
-              </Button>
-            </Stack>
-
-
+                <Box
+                  bgcolor={
+                    message.role === 'user' ? '#696969' : 'black'
+                  }
+                  color="white"
+                  borderRadius="16px"
+                  p={2}
+                  maxWidth="70%"  // Responsive max width for messages
+                >
+                  {message.content}
+                </Box>
+              </Box>
+            ))}
+            <div ref={messagesEndRef} />
+          </Stack>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ paddingTop: '8px', width: '100%' }}
+          >
+            <TextField
+              label="Message"
+              fullWidth
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              sx={{ flexGrow: 1 }}
+            />
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#43464B',
+                color: '#FFFFFF',
+                '&:hover': {
+                  backgroundColor: '#333333',
+                },
+              }}
+              onClick={sendMessage}
+            >
+              Send
+            </Button>
           </Stack>
         </Box>
       </Modal>
